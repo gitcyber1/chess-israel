@@ -1,0 +1,4 @@
+Chess piece graphics ("cburnett" set) by Colin M.L. Burnett.
+Source: https://en.wikipedia.org/wiki/User:Cburnett
+Distributed via lichess-org/lila (https://github.com/lichess-org/lila/tree/master/public/piece/cburnett).
+License: GNU General Public License v2 or later (GPLv2+).
