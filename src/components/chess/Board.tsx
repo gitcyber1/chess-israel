@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { Chess, type Square as ChessSquare, type Move } from "chess.js";
 import { Piece } from "./Piece";
+import { VictoryOverlay } from "./VictoryOverlay";
 import { getBestMove, warmupEngine } from "@/lib/stockfish-engine";
 
 type Difficulty = "easy" | "medium" | "hard";
@@ -143,6 +144,15 @@ export function Board() {
 
   const history = game.history();
 
+  const gameOver = game.isGameOver();
+  const winner: "player" | "computer" | "draw" | null = gameOver
+    ? game.isCheckmate()
+      ? turn === "w"
+        ? "computer"
+        : "player"
+      : "draw"
+    : null;
+
   return (
     <div className="flex w-full max-w-2xl flex-col items-center gap-6">
       {/* Status bar */}
@@ -173,6 +183,13 @@ export function Board() {
         }}
         dir="ltr"
       >
+        {winner && (
+          <VictoryOverlay
+            key={game.fen()}
+            winner={winner}
+            onNewGame={newGame}
+          />
+        )}
         <div className="grid grid-cols-8 overflow-hidden rounded-sm">
           {board.map((row, r) =>
             row.map((piece, f) => {
