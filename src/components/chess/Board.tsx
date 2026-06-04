@@ -166,14 +166,14 @@ export function Board() {
 
       {/* Board */}
       <div
-        className="relative rounded-lg p-3 shadow-2xl"
+        className="relative rounded-md p-2 shadow-2xl"
         style={{
           background:
-            "linear-gradient(135deg, #3a2817 0%, #5a3a22 50%, #3a2817 100%)",
+            "linear-gradient(135deg, #4a6b35 0%, #5d8043 50%, #4a6b35 100%)",
         }}
         dir="ltr"
       >
-        <div className="grid grid-cols-8 overflow-hidden rounded-sm border-2 border-[#2a1a0d]">
+        <div className="grid grid-cols-8 overflow-hidden rounded-sm">
           {board.map((row, r) =>
             row.map((piece, f) => {
               const square = (FILES[f] + (8 - r)) as ChessSquare;
@@ -194,20 +194,20 @@ export function Board() {
                   className="relative flex aspect-square items-center justify-center transition-colors"
                   style={{
                     width: "min(11vw, 4rem)",
-                    backgroundColor: isSelected
-                      ? "#b9a36b"
-                      : isLast
+                    backgroundColor:
+                      isSelected || isLast
                         ? isLight
-                          ? "#d6c98a"
-                          : "#a08a50"
+                          ? "#f6f669"
+                          : "#baca44"
                         : isLight
-                          ? "#ead9b8"
-                          : "#9a6b3f",
+                          ? "#ebecd0"
+                          : "#779556",
                     boxShadow: inCheck
                       ? "inset 0 0 0 3px #c0392b"
                       : undefined,
                   }}
                 >
+
                   {piece && <Piece color={piece.color} type={piece.type} />}
                   {isTarget && !piece && (
                     <span className="absolute h-3 w-3 rounded-full bg-black/30" />
