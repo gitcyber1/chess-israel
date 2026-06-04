@@ -100,7 +100,7 @@ export function VictoryOverlay({ winner, onNewGame }: VictoryOverlayProps) {
           {title}
         </h2>
 
-        <p className="mt-3 text-lg text-[var(--ink-muted)]">{subtitle}</p>
+        <p className="mt-3 text-lg text-[var(--ink-muted)]" dir="rtl">{subtitle}</p>
 
         <button
           onClick={onNewGame}
