@@ -1,36 +1,46 @@
+# שיפור מראה החיילים
 
-## המטרה
-הרמה הקשה משחקת חלש כי המנוע הנוכחי הוא Minimax בעומק 3 עם הערכה בסיסית. נחליף את ה-AI ברמה הקשה למנוע **Stockfish** — מנוע השח החזק בעולם, חינמי וקוד פתוח, שרץ ישירות בדפדפן דרך WebAssembly. אין צורך בשירות חיצוני או מפתח API.
+כרגע החיילים הם תווי יוניקוד (♔♚) שנראים שטוחים ולא מקצועיים. נחליף אותם בגרפיקות SVG איכותיות בסגנון של chess.com / lichess, כפי שמופיע בתמונה שצירפת.
 
-## הגישה
-- שימוש בחבילה `stockfish` מ-npm (build של WASM שרץ ב-Web Worker בדפדפן).
-- ה-Worker מתקשר דרך פרוטוקול UCI (`position fen ...`, `go movetime ...`).
-- שלוש הרמות יתאימו לעוצמת המנוע:
-  - **קל**: Stockfish עם `Skill Level = 1` ו-`movetime ≈ 200ms` (משחק חלש בכוונה, מתאים למתחילים).
-  - **בינוני**: `Skill Level = 8` ו-`movetime ≈ 500ms`.
-  - **קשה**: `Skill Level = 20` (מקסימום) ו-`movetime ≈ 1500ms` — רמה ברמת רב-אמן.
-- ה-Minimax המקומי (`src/lib/chess-ai.ts`) יוסר; כולם משתמשים ב-Stockfish.
+## מה אעשה
 
-## שינויים בקבצים
+### 1. הוספת נכסי SVG לחיילים
+- אוריד את סט החיילים הקלאסי **"cburnett"** (אותו סט בו משתמשים Lichess ו-chess.com Neo) — 12 קבצי SVG (6 סוגים × 2 צבעים): `wK, wQ, wR, wB, wN, wP, bK, bQ, bR, bB, bN, bP`.
+- הקבצים יישמרו תחת `public/pieces/` כדי להיטען ישירות כתמונות, בלי bundling.
+- המקור: רישיון GPL חופשי (Wikimedia / lichess-org/lila), בטוח לשימוש.
 
-**חדש — `src/lib/stockfish-engine.ts`**  
-מודול שיוצר Web Worker עם Stockfish, חושף `getBestMove(fen, { skill, movetime })` שמחזיר Promise עם מהלך בפורמט `{ from, to, promotion? }`. אתחול עצלן (singleton) כדי לא לטעון WASM יותר מפעם אחת.
+### 2. עדכון `src/components/chess/Piece.tsx`
+- במקום `<span>` עם תו יוניקוד — `<img src="/pieces/wK.svg" />` עם:
+  - `draggable={false}` למניעת גרירה מקרית
+  - `select-none` ו-`pointer-events-none`
+  - גודל רספונסיבי תואם לגודל הריבוע
+  - `drop-shadow` עדין לעומק
 
-**עריכה — `src/components/chess/Board.tsx`**  
-- החלפת הקריאה ל-`findBestMove` בקריאה אסינכרונית ל-`getBestMove` מ-Stockfish.
-- מיפוי דרגות קושי לפרמטרים (skill + movetime) במקום עומק.
-- הסרת ייבוא של `chess-ai.ts`.
+### 3. עדכון צבעי הלוח ב-`Board.tsx`
+התמונה שצירפת מציגה את ערכת הצבעים הקלאסית של chess.com:
+- ריבוע בהיר: `#ebecd0` (קרם)
+- ריבוע כהה: `#779556` (ירוק זית)
+- ריבוע נבחר/מהלך אחרון: גוון צהוב-זהוב (`#f6f669` / `#baca44`)
+- מסגרת: ירוק כהה יותר תואם
 
-**מחיקה — `src/lib/chess-ai.ts`**  
-לא בשימוש יותר.
+נשנה את הצבעים בריבועים ובמסגרת בהתאם.
 
-**חבילה חדשה** — `bun add stockfish`.
+### 4. תיאום הקונטרסט
+- כיוון שהחיילים עכשיו הם SVG עם צבעים מובנים (לבן עם מתאר שחור / שחור מלא), נסיר את ה-`textShadow` הישן.
+- נוודא שהחיילים נראים חדים גם על רקע ירוק בהיר וגם כהה.
 
 ## פרטים טכניים
-- חבילת `stockfish` ב-npm כוללת קובץ `stockfish.js` שמופעל כ-Web Worker: `new Worker(new URL('stockfish/src/stockfish.js', import.meta.url))`. Vite יודע לקבץ זאת.
-- פרוטוקול UCI: שולחים `uci`, `isready`, `position fen <FEN>`, `go movetime <ms>`. המנוע משיב `bestmove e2e4` ואז מפענחים את ה-from/to/promotion.
-- בשל גודל ה-WASM (~1MB), המנוע נטען רק כשמתחיל תור המחשב הראשון. במהלך טעינה ראשונית תוצג "המחשב חושב..." כרגיל.
-- אם הדפדפן לא תומך ב-WebAssembly (נדיר מאוד), נחזור ל-Minimax כ-fallback (אופציונלי, ניתן לוותר).
 
-## למה לא API חיצוני?
-שירותי API חינמיים (כמו Lichess Cloud Eval) מוגבלים בקצב ודורשים חיבור רשת בכל מהלך. Stockfish ב-WASM רץ מקומית, מיידי, ללא הגבלות וללא צורך במפתחות.
+- **למה SVG מקובץ ולא יוניקוד?** יוניקוד מוגבל לפונט המערכת ונראה שטוח. SVG וקטורי מתרנדר חד בכל DPR וזהה בכל דפדפן.
+- **למה `public/` ולא `src/assets/`?** הקבצים נטענים דינמית לפי שם החייל (`${color}${type}.svg`), כך שעדיף נתיבים סטטיים יציבים בלי import לכל אחד.
+- **השפעה על ביצועים:** 12 קבצי SVG קטנים (~2-5KB כל אחד), נטענים פעם אחת ונשמרים במטמון.
+
+## קבצים שיושפעו
+
+- חדש: `public/pieces/{w,b}{K,Q,R,B,N,P}.svg` (12 קבצים)
+- שינוי: `src/components/chess/Piece.tsx` — החלפת span ב-img
+- שינוי: `src/components/chess/Board.tsx` — עדכון צבעי ריבועים והדגשות
+
+## מה לא משתנה
+
+- לוגיקת המשחק, מנוע Stockfish, רמות הקושי, הטיפוגרפיה, ה-RTL, וכל שאר ה-UI נשארים בדיוק כפי שהם.
