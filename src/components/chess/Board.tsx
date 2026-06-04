@@ -144,6 +144,15 @@ export function Board() {
 
   const history = game.history();
 
+  const gameOver = game.isGameOver();
+  const winner: "player" | "computer" | "draw" | null = gameOver
+    ? game.isCheckmate()
+      ? turn === "w"
+        ? "computer"
+        : "player"
+      : "draw"
+    : null;
+
   return (
     <div className="flex w-full max-w-2xl flex-col items-center gap-6">
       {/* Status bar */}
