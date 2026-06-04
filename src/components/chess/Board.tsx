@@ -183,6 +183,13 @@ export function Board() {
         }}
         dir="ltr"
       >
+        {winner && (
+          <VictoryOverlay
+            key={game.fen()}
+            winner={winner}
+            onNewGame={newGame}
+          />
+        )}
         <div className="grid grid-cols-8 overflow-hidden rounded-sm">
           {board.map((row, r) =>
             row.map((piece, f) => {
