@@ -78,27 +78,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "שח-מט ישראל" },
-      { name: "description", content: "שחמט ישראל,
-יש 3 רמות, דרגה קשה היא ברמה של קספרוב אז בהצלחה.
-ויש גם אפשרות לחזור מהלכים אחורה, אז ניתן לתרגל ולהשתפר.
-זה בחינם וישאר כך,
-תהנו :)" },
+      { name: "description", content: "שחמט ישראל, יש 3 רמות, דרגה קשה היא ברמה של קספרוב אז בהצלחה. ויש גם אפשרות לחזור מהלכים אחורה, אז ניתן לתרגל ולהשתפר. זה בחינם וישאר כך, תהנו :)" },
       { name: "author", content: "Lovable" },
       { property: "og:title", content: "שח-מט ישראל" },
-      { property: "og:description", content: "שחמט ישראל,
-יש 3 רמות, דרגה קשה היא ברמה של קספרוב אז בהצלחה.
-ויש גם אפשרות לחזור מהלכים אחורה, אז ניתן לתרגל ולהשתפר.
-זה בחינם וישאר כך,
-תהנו :)" },
+      { property: "og:description", content: "שחמט ישראל, יש 3 רמות, דרגה קשה היא ברמה של קספרוב אז בהצלחה. ויש גם אפשרות לחזור מהלכים אחורה, אז ניתן לתרגל ולהשתפר. זה בחינם וישאר כך, תהנו :)" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "שח-מט ישראל" },
-      { name: "twitter:description", content: "שחמט ישראל,
-יש 3 רמות, דרגה קשה היא ברמה של קספרוב אז בהצלחה.
-ויש גם אפשרות לחזור מהלכים אחורה, אז ניתן לתרגל ולהשתפר.
-זה בחינם וישאר כך,
-תהנו :)" },
+      { name: "twitter:description", content: "שחמט ישראל, יש 3 רמות, דרגה קשה היא ברמה של קספרוב אז בהצלחה. ויש גם אפשרות לחזור מהלכים אחורה, אז ניתן לתרגל ולהשתפר. זה בחינם וישאר כך, תהנו :)" },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/0Xm6SU8BApOpVJIUyyMmBqOcRIo2/social-images/social-1780575743519-45171.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/0Xm6SU8BApOpVJIUyyMmBqOcRIo2/social-images/social-1780575743519-45171.webp" },
     ],
