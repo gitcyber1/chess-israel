@@ -63,6 +63,11 @@
 
 :root {
   --radius: 0.625rem;
+  --page-bg: #f1e6cf;
+  --panel: #faf3e0;
+  --ink: #2a1d10;
+  --ink-muted: #6b5a44;
+  --board-border: #c4a878;
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
   --card: oklch(1 0 0);
