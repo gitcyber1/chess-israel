@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { Chess, type Square as ChessSquare, type Move } from "chess.js";
 import { Piece } from "./Piece";
+import { VictoryOverlay } from "./VictoryOverlay";
 import { getBestMove, warmupEngine } from "@/lib/stockfish-engine";
 
 type Difficulty = "easy" | "medium" | "hard";
