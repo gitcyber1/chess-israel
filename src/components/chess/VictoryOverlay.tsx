@@ -92,9 +92,10 @@ export function VictoryOverlay({ winner, onNewGame }: VictoryOverlayProps) {
         </div>
 
         <h2
+          dir="rtl"
           className="font-serif text-4xl font-bold sm:text-5xl"
           style={{
-            color: accentColor,
+            color: "#2563eb",
             textShadow: `0 0 30px ${glowColor}`,
           }}
         >
