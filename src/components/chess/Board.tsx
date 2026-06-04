@@ -208,6 +208,7 @@ export function Board() {
                 <button
                   key={square}
                   onClick={() => handleSquareClick(square)}
+                  aria-label={piece ? `משבצת ${square}` : `משבצת ריקה ${square}`}
                   className="relative flex aspect-square items-center justify-center transition-colors"
                   style={{
                     width: "min(11vw, 4rem)",

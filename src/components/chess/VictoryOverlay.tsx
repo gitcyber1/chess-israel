@@ -81,6 +81,7 @@ export function VictoryOverlay({ winner, onNewGame }: VictoryOverlayProps) {
       >
         {/* Crown / Icon */}
         <div
+          aria-hidden="true"
           className="mb-4 flex h-16 w-16 items-center justify-center rounded-full text-3xl"
           style={{
             background: `linear-gradient(135deg, ${accentColor}, ${isPlayerWin ? "#f0d78c" : isDraw ? "#aabbcc" : "#e74c3c"})`,
