@@ -77,14 +77,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "שח-מט ישראל" },
+      { name: "description", content: "Checkmate Buddy is a web application for playing chess against a computer opponent." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "שח-מט ישראל" },
+      { property: "og:description", content: "Checkmate Buddy is a web application for playing chess against a computer opponent." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "שח-מט ישראל" },
+      { name: "twitter:description", content: "Checkmate Buddy is a web application for playing chess against a computer opponent." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/bbb3f5dc-5287-4c51-8981-523359b9c389/id-preview-cb28aa56--01326174-8e86-44ad-918c-b9d255827856.lovable.app-1780561956066.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/bbb3f5dc-5287-4c51-8981-523359b9c389/id-preview-cb28aa56--01326174-8e86-44ad-918c-b9d255827856.lovable.app-1780561956066.png" },
     ],
     links: [
       {
