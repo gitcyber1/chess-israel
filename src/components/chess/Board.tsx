@@ -49,7 +49,17 @@ export function Board() {
     (async () => {
       try {
         const fen = game.fen();
-        const move = await getBestMove(fen, ENGINE_SETTINGS[difficulty]);
+        const settings = ENGINE_SETTINGS[difficulty];
+        let move: { from: string; to: string; promotion?: string } | null = null;
+        if (settings.randomness && Math.random() < settings.randomness) {
+          const legal = game.moves({ verbose: true }) as Move[];
+          if (legal.length) {
+            const pick = legal[Math.floor(Math.random() * legal.length)];
+            move = { from: pick.from, to: pick.to, promotion: pick.promotion };
+          }
+        } else {
+          move = await getBestMove(fen, settings);
+        }
         if (cancelled) return;
         if (move) {
           const result = game.move({
