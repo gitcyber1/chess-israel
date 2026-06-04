@@ -1,11 +1,15 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { Chess, type Square as ChessSquare, type Move } from "chess.js";
 import { Piece } from "./Piece";
-import { findBestMove } from "@/lib/chess-ai";
+import { getBestMove, warmupEngine } from "@/lib/stockfish-engine";
 
 type Difficulty = "easy" | "medium" | "hard";
 
-const DEPTH: Record<Difficulty, number> = { easy: 1, medium: 2, hard: 3 };
+const ENGINE_SETTINGS: Record<Difficulty, { skill: number; movetime: number }> = {
+  easy: { skill: 1, movetime: 200 },
+  medium: { skill: 8, movetime: 500 },
+  hard: { skill: 20, movetime: 1500 },
+};
 
 const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"] as const;
 
@@ -31,20 +35,39 @@ export function Board() {
     return new Set(moves.map((m) => m.to));
   }, [selected, game]);
 
+  // Pre-warm the engine once on mount
+  useEffect(() => {
+    warmupEngine();
+  }, []);
+
   // Computer move
   useEffect(() => {
     if (game.isGameOver() || turn !== "b") return;
+    let cancelled = false;
     setThinking(true);
-    const id = setTimeout(() => {
-      const move = findBestMove(game.fen(), DEPTH[difficulty]);
-      if (move) {
-        game.move(move);
-        setLastMove({ from: move.from, to: move.to });
-        refresh();
+    (async () => {
+      try {
+        const fen = game.fen();
+        const move = await getBestMove(fen, ENGINE_SETTINGS[difficulty]);
+        if (cancelled) return;
+        if (move) {
+          const result = game.move({
+            from: move.from,
+            to: move.to,
+            promotion: move.promotion ?? "q",
+          });
+          if (result) {
+            setLastMove({ from: result.from, to: result.to });
+            refresh();
+          }
+        }
+      } finally {
+        if (!cancelled) setThinking(false);
       }
-      setThinking(false);
-    }, 300);
-    return () => clearTimeout(id);
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [turn, game, difficulty, refresh]);
 
   const handleSquareClick = (square: ChessSquare) => {
