@@ -7,7 +7,7 @@ import { getBestMove, warmupEngine } from "@/lib/stockfish-engine";
 type Difficulty = "easy" | "medium" | "hard";
 
 const ENGINE_SETTINGS: Record<Difficulty, { skill: number; movetime: number; randomness?: number }> = {
-  easy: { skill: 0, movetime: 50, randomness: 0.6 },
+  easy: { skill: 0, movetime: 50, randomness: 0.95 },
   medium: { skill: 8, movetime: 500 },
   hard: { skill: 20, movetime: 1500 },
 };
