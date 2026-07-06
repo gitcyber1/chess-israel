@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "sdk_version": "0.20.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "chess-israel-mcp",
+      "version": "0.1.0",
+      "title": "שח-מט ישראל MCP"
+    },
+    "tools": [
+      {
+        "name": "get_best_move",
+        "title": "Get best chess move",
+        "description": "Given a chess position in FEN notation, return the best legal move in UCI (e.g. e2e4). Uses a lightweight heuristic search over legal moves — no engine required.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "fen": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Chess position in Forsyth-Edwards Notation (FEN)."
+            }
+          },
+          "required": [
+            "fen"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_legal_moves",
+        "title": "List legal chess moves",
+        "description": "Given a chess position in FEN notation, return every legal move in SAN and UCI notation.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "fen": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Chess position in FEN."
+            }
+          },
+          "required": [
+            "fen"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "analyze_position",
+        "title": "Analyze chess position",
+        "description": "Describe the state of a chess position: whose turn it is, check/checkmate/stalemate/draw status, material balance, and move count.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "fen": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Chess position in FEN."
+            }
+          },
+          "required": [
+            "fen"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
